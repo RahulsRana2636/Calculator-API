@@ -7,7 +7,14 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-app.use(cors());
+const frontendDomain = 'https://calculator-muvp.onrender.com'; // Update with your frontend domain
+
+app.use(cors({
+  origin: frontendDomain,
+  methods: 'POST',
+  optionsSuccessStatus: 204,
+}));
+
 app.use(express.json());
 
 app.post('/calculate', (req, res) => {
@@ -38,7 +45,6 @@ app.post('/calculate', (req, res) => {
         const absolutePath = path.resolve(pdfFileName);
         // Send the PDF as a response with the resolved absolute path
         res.sendFile(absolutePath);
-        const result = parseFloat(num1) + parseFloat(num2);
       });
 
       pdfStream.on('error', (err) => {
@@ -48,7 +54,6 @@ app.post('/calculate', (req, res) => {
     .catch(err => {
       res.status(500).send(err.message);
     });
-    
 });
 
 app.listen(port, () => {
