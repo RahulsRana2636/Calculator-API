@@ -3,7 +3,7 @@ const cors = require('cors');
 const excel = require('exceljs');
 const pdfkit = require('pdfkit');
 const fs = require('fs');
-const path = require('path'); // Add this line
+const path = require('path'); 
 const app = express();
 const port = 3000;
 
@@ -39,9 +39,6 @@ app.post('/calculate', (req, res) => {
         // Send the PDF as a response with the resolved absolute path
         res.sendFile(absolutePath);
         const result = parseFloat(num1) + parseFloat(num2);
-
-  // Respond with JSON data
-//   res.json({ result });
       });
 
       pdfStream.on('error', (err) => {
