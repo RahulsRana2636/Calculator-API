@@ -7,18 +7,11 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-const frontendDomain = 'https://calculator-muvp.onrender.com'; // Update with your frontend domain
-
-app.use(cors({
-  origin: frontendDomain,
-  methods: 'POST',
-  optionsSuccessStatus: 204,
-}));
-
+app.use(cors());
 app.use(express.json());
 
 app.post('/calculate', (req, res) => {
-  const { num1, num2 } = req.body;
+  const { num1, num2 } = req.body
 
   // Perform calculations and save to Excel file
   const workbook = new excel.Workbook();
@@ -45,6 +38,7 @@ app.post('/calculate', (req, res) => {
         const absolutePath = path.resolve(pdfFileName);
         // Send the PDF as a response with the resolved absolute path
         res.sendFile(absolutePath);
+        const result = parseFloat(num1) + parseFloat(num2);
       });
 
       pdfStream.on('error', (err) => {
@@ -54,6 +48,7 @@ app.post('/calculate', (req, res) => {
     .catch(err => {
       res.status(500).send(err.message);
     });
+    
 });
 
 app.listen(port, () => {
